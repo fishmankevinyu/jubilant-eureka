@@ -28,8 +28,9 @@ async function getUserDetails (req, res) {
 
 async function createUser (req, res) {
     const user = req.body;
-    const sql = "INSERT INTO users(name, email) VALUES($1, $2) RETURNING *"
-    const values = [user.name, user.email];
+    const sql = "INSERT INTO users(uuid, name, email) VALUES($1, $2, $3) RETURNING *"
+    console.log(user)
+    const values = [user.uuid, user.name, user.email];
 
     var client = new Client({
         user: "postgres",
@@ -41,7 +42,6 @@ async function createUser (req, res) {
     try {
         await client.connect();
         var db_res = await client.query(sql, values);
-        console.log(db_res)
         await client.end();
         await res.send(db_res);
     } catch (e) {

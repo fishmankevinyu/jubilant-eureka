@@ -12,7 +12,7 @@
     </thead>
     <tbody>
       <tr v-for="(user, index) in users" :key="index">
-        <td>{{user.id}}</td>
+        <td>{{user.uuid}}</td>
         <td>{{user.name}}</td>
         <td>{{user.email}}</td>
         <td>{{user.tone}}</td>
@@ -49,15 +49,16 @@ export default {
       var name = chance.name();
       var email = chance.email();
       try {
-        var res = await axios.post('http://localhost:3000/user', {name: name, email: email} );
+        var uuid = await axios.get('http://localhost:3000/id');
+        uuid = uuid.data;
+        var res = await axios.post('http://localhost:3000/user', {uuid: uuid, name: name, email: email} );
       } catch (e) {
         console.log(e);
         setTimeout(async () => {
           try {
-            await axios.post('http://localhost:3000/user', {
-              name: name,
-              email: email
-            });
+            var uuid = await axios.get('http://localhost:3000/id').data;
+            uuid = uuid.data;
+            await axios.post('http://localhost:3000/user', {uuid: uuid, name: name, email: email});
           } catch (e) {
             console.log(e);
           }
@@ -66,7 +67,6 @@ export default {
     }
   },
   mounted: function() {
-    console.log("Hi!");
     this.getUsers();
     this.generateUser();
   }

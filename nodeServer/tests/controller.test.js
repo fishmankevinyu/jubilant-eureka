@@ -56,6 +56,7 @@ describe("Controller Unit Testing", () => {
             client.query.mockResolvedValue({
                 rowCount: 1,
                 rows: [{
+                    uuid: "9b71b297-bb99-4898-9ae7-b7d8c59c68c5",
                     name: "John Doe",
                     email: "doej@gmail.com"
                 }]
