@@ -29,7 +29,6 @@ async function getUserDetails (req, res) {
 async function createUser (req, res) {
     const user = req.body;
     const sql = "INSERT INTO users(uuid, name, email) VALUES($1, $2, $3) RETURNING *"
-    console.log(user)
     const values = [user.uuid, user.name, user.email];
 
     var client = new Client({
